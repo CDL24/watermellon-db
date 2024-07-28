@@ -18,7 +18,7 @@ const Home: React.FC = () => {
   const [mobile, setMobile] = useState<string>('');
   
   useEffect(()=>{
-    console.log('Route Changed...',route)
+    
     setFirstName(route?.params?.user?.first_name || '')
     setLastName(route?.params?.user?.last_name || '')
     setEmail(route?.params?.user?.email || '')

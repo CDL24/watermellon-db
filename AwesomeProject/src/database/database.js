@@ -1,5 +1,3 @@
-//import { schemaMigrations } from "@nozbe/watermelondb/Schema/migrations";
-
 import SQLiteAdapter from "@nozbe/watermelondb/adapters/sqlite";
 import { mySchema } from "../models/schema";
 import { Database } from "@nozbe/watermelondb";

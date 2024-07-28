@@ -27,7 +27,6 @@ export const updateUser = async (id: string, userData: UserData) => {
 export const deleteData = async (id: string) => {
   await database.write(async () => {
     const user = await database.get('users').find(id);
-    console.log('deleted...', user);
     await user.destroyPermanently();
   });
 };
