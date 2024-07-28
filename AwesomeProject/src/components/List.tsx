@@ -43,48 +43,26 @@ const List: React.FC = () => {
     setModalVisible(true);
   };
   const renderRow = user => {
-    console.log('renderRow', user);
     return (
-      <View
-        style={{
-          backgroundColor: '#F2F0EF',
-          borderRadius: 2,
-          borderColor: 'pink',
-          borderWidth: 1,
-          marginHorizontal: 8,
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            padding: 5,
-          }}>
+      <View style={styles.rowConatiner}>
+        <View style={styles.twoBtnContainer}>
           <View>
             <Text
               style={{
-                color: 'red',
+                color: 'black',
               }}>{`${user.first_name} ${user.last_name}`}</Text>
-            <Text style={{color: 'red'}}>{user.email}</Text>
+            <Text style={{color: 'black'}}>{user.email}</Text>
+            <Text style={{color: 'black'}}>{user.mobile}</Text>
           </View>
           <View style={{gap: 5}}>
             <TouchableOpacity
               onPress={() => onDelete(user.id)}
-              style={{
-                borderColor: 'black',
-                borderRadius: 10,
-                padding: 5,
-                borderWidth: 1,
-              }}>
+              style={styles.btnStyle}>
               <Text>Delete</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => onEdit(user)}
-              style={{
-                borderColor: 'black',
-                borderRadius: 10,
-                padding: 5,
-                borderWidth: 1,
-              }}>
+              style={styles.btnStyle}>
               <Text>Edit</Text>
             </TouchableOpacity>
           </View>
@@ -93,121 +71,59 @@ const List: React.FC = () => {
     );
   };
   return (
-    <View style={{flex: 1}}>
-      <Text
-        style={{
-          fontSize: 22,
-          color: 'purple',
-          justifyContent: 'center',
-          alignItems: 'center',
-          textAlign: 'center',
-          marginVertical: 10,
-        }}>
-        Users List
-      </Text>
-      <View style={{flex: 1}}>
-        {data?.length > 0 ? (<FlatList
-          data={data}
-          renderItem={({item}) => renderRow(item)}
-          keyExtractor={item => `${item.id}-${Math.random()}`}
-          extraData={data}
-        />) : (
-          <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+    <View style={styles.centeredView}>
+      <Text style={styles.title}>Users List</Text>
+      <View style={styles.centeredView}>
+        {data?.length > 0 ? (
+          <FlatList
+            data={data}
+            renderItem={({item}) => renderRow(item)}
+            keyExtractor={item => `${item.id}-${Math.random()}`}
+            extraData={data}
+          />
+        ) : (
+          <View style={styles.noRecord}>
             <Text>No Records Found!</Text>
           </View>
-        )}  
+        )}
       </View>
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          console.log('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
-          <View style={{flex: 1, backgroundColor: 'pink'}}>
-            <Text
-              style={{
-                fontSize: 22,
-                color: 'purple',
-                justifyContent: 'center',
-                alignItems: 'center',
-                textAlign: 'center',
-                marginVertical: 10,
-              }}>
-              User Profile
-            </Text>
+          <View style={styles.background}>
+            <Text style={styles.title}>User Profile</Text>
             <TextInput
-              style={{
-                borderRadius: 8,
-                borderColor: '#FFF',
-                backgroundColor: '#FFF',
-                marginHorizontal: 16,
-                padding: 8,
-                marginVertical: 5,
-              }}
+              style={styles.input}
               value={firstName}
               placeholder="First Name"
               onChangeText={text => setFirstName(text)}
             />
             <TextInput
-              style={{
-                borderRadius: 8,
-                borderColor: '#FFF',
-                backgroundColor: '#FFF',
-                marginHorizontal: 16,
-                padding: 8,
-                marginVertical: 5,
-              }}
+              style={styles.input}
               value={lastName}
               placeholder="Last Name"
               onChangeText={text => setLastName(text)}
             />
             <TextInput
-              style={{
-                borderRadius: 8,
-                borderColor: '#FFF',
-                backgroundColor: '#FFF',
-                marginHorizontal: 16,
-                padding: 8,
-                marginVertical: 5,
-              }}
+              style={styles.input}
               value={email}
               placeholder="Email"
               onChangeText={text => setEmail(text)}
             />
             <TextInput
-              style={{
-                borderRadius: 8,
-                borderColor: '#FFF',
-                backgroundColor: '#FFF',
-                marginHorizontal: 16,
-                padding: 8,
-                marginVertical: 5,
-              }}
+              style={styles.input}
               value={mobile}
               placeholder="Mobile"
               onChangeText={text => setMobile(text)}
             />
-            <View
-              style={{
-                flexDirection: 'row',
-                width: '90%',
-                height: 50,
-                position: 'absolute',
-                bottom: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-                alignSelf: 'center',
-                gap: 10,
-              }}>
+            <View style={styles.btnRowContainer}>
               <TouchableOpacity
-                style={{
-                  backgroundColor: 'purple',
-                  padding: 10,
-                  borderRadius: 8,
-                }}
+                style={styles.btnContainer}
                 onPress={() => {
                   const user: UserData = {
                     firstName,
@@ -220,9 +136,7 @@ const List: React.FC = () => {
                   setIsRefresh(!isRefresh);
                   setModalVisible(!modalVisible);
                 }}>
-                <Text style={{color: '#FFF', fontSize: 20, fontWeight: '600'}}>
-                  {'Update'}
-                </Text>
+                <Text style={styles.btnText}>{'Update'}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -236,40 +150,74 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
   },
-  modalView: {
-    flex: 1,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+  btnText: {
+    color: '#FFF',
+    fontSize: 20,
+    fontWeight: '600',
   },
-  button: {
-    borderRadius: 20,
+  btnContainer: {
+    backgroundColor: 'purple',
     padding: 10,
-    elevation: 2,
+    borderRadius: 8,
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
+  btnRowContainer: {
+    flexDirection: 'row',
+    width: '90%',
+    height: 50,
+    position: 'absolute',
+    bottom: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    gap: 10,
   },
-  buttonClose: {
-    backgroundColor: '#2196F3',
+  input: {
+    borderRadius: 8,
+    borderColor: '#FFF',
+    backgroundColor: '#FFF',
+    marginHorizontal: 16,
+    padding: 8,
+    marginVertical: 5,
   },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
+  title: {
+    fontSize: 22,
+    color: 'purple',
+    justifyContent: 'center',
+    alignItems: 'center',
     textAlign: 'center',
+    marginVertical: 10,
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
+  noRecord: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  background: {
+    flex: 1,
+    backgroundColor: 'pink',
+  },
+  rowConatiner: {
+    backgroundColor: '#EEEEEE',
+    borderRadius: 8,
+    borderColor: '#E0E0E0',
+    borderWidth: 1,
+    marginHorizontal: 8,
+    marginVertical: 5,
+    padding: 5,
+  },
+  twoBtnContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 5,
+  },
+  btnStyle: {
+    backgroundColor: '#EEEEEE',
+    borderColor: 'black',
+    borderRadius: 10,
+    padding: 5,
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
