@@ -18,6 +18,7 @@ const List: React.FC = () => {
   const [lastName, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [mobile, setMobile] = useState<string>('');
+  const [gender, setGender] = useState<string>('');
   const [id, setId] = useState<string>('');
 
   useEffect(() => {
@@ -39,6 +40,7 @@ const List: React.FC = () => {
     setLastName(user.last_name);
     setEmail(user.email);
     setMobile(user.mobile);
+    setGender(user.gender);
     setId(user.id);
     setModalVisible(true);
   };
@@ -73,7 +75,7 @@ const List: React.FC = () => {
   return (
     <View style={styles.centeredView}>
       <Text style={styles.title}>Users List</Text>
-      <View style={styles.centeredView}>
+      <View>
         {data?.length > 0 ? (
           <FlatList
             data={data}
@@ -109,6 +111,14 @@ const List: React.FC = () => {
               placeholder="Last Name"
               onChangeText={text => setLastName(text)}
             />
+            <View style={styles.radioContainer}>
+        <TouchableOpacity style={gender === 'Male' ? styles.enableRadio : styles.disableRadio} onPress={()=> setGender('Male')}>
+          <Text style={styles.radioText}>Male</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={gender === 'Female' ? styles.enableRadio : styles.disableRadio} onPress={()=> setGender('Female')}>
+          <Text style={styles.radioText}>Female</Text>
+        </TouchableOpacity>
+      </View>
             <TextInput
               style={styles.input}
               value={email}
@@ -130,6 +140,7 @@ const List: React.FC = () => {
                     lastName,
                     email,
                     mobile,
+                    gender
                   };
 
                   updateUser(id, user);
@@ -149,6 +160,7 @@ const List: React.FC = () => {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
+    gap: 10
   },
   btnText: {
     color: '#FFF',
@@ -195,6 +207,7 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: '#EEEEEE',
+    gap:10
   },
   rowConatiner: {
     backgroundColor: '#EEEEEE',
@@ -218,6 +231,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  radioContainer: {
+    flexDirection: 'row',
+    gap: 10,
+    marginHorizontal: 16,
+  },
+  disableRadio: {
+    backgroundColor: '#BDBDBD',
+    padding: 8,
+    borderRadius: 8,
+  },
+  enableRadio: {
+    backgroundColor: 'purple',
+    padding: 8,
+    borderRadius: 8,
+  },
+  radioText: {
+    color: 'white',
   },
 });
 

@@ -8,6 +8,7 @@ export const saveData = async (userData: UserData) => {
       user.lastName = userData.lastName;
       user.email = userData.email;
       user.mobile = userData.mobile;
+      user.gender = userData.gender;
     });
   });
   console.log('Saved...');
@@ -20,9 +21,9 @@ export const updateUser = async (id: string, userData: UserData) => {
       user.lastName = userData.lastName;
       user.email = userData.email;
       user.mobile = userData.mobile;
+      user.gender = userData.gender;
     });
   });
-  console.log('Updated...');
 };
 export const deleteData = async (id: string) => {
   await database.write(async () => {
@@ -57,4 +58,5 @@ export interface UserData {
   lastName: string;
   email: string;
   mobile: string;
+  gender: string;
 }

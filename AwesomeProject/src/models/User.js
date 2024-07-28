@@ -8,5 +8,4 @@ export default class User extends Model {
     @field('email') email
     @field('gender') gender
     @field('mobile') mobile
-    
   }

@@ -16,6 +16,7 @@ const Home: React.FC = () => {
   const [lastName, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [mobile, setMobile] = useState<string>('');
+  const [gender, setGender] = useState<string>('Male');
 
   const addUser = () => {
     if (!firstName || !lastName || !email || !mobile) return;
@@ -24,6 +25,7 @@ const Home: React.FC = () => {
       lastName,
       email,
       mobile,
+      gender,
     };
     saveData(user);
     setFirstName('');
@@ -33,7 +35,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#EEEEEE'}}>
+    <View style={styles.container}>
       <Text style={styles.mainTitle}>User Profile</Text>
       <TextInput
         style={styles.input}
@@ -47,6 +49,18 @@ const Home: React.FC = () => {
         placeholder="Last Name"
         onChangeText={text => setLastName(text)}
       />
+      <View style={styles.radioContainer}>
+        <TouchableOpacity
+          style={gender === 'Male' ? styles.enableRadio : styles.disableRadio}
+          onPress={() => setGender('Male')}>
+          <Text style={styles.radioText}>Male</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={gender === 'Female' ? styles.enableRadio : styles.disableRadio}
+          onPress={() => setGender('Female')}>
+          <Text style={styles.radioText}>Female</Text>
+        </TouchableOpacity>
+      </View>
       <TextInput
         style={styles.input}
         value={email}
@@ -77,6 +91,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#EEEEEE',
+    gap: 10,
   },
   title: {
     backgroundColor: 'purple',
@@ -114,6 +129,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textAlign: 'center',
     marginVertical: 10,
+  },
+  radioContainer: {
+    flexDirection: 'row',
+    gap: 10,
+    marginHorizontal: 16,
+  },
+  disableRadio: {
+    backgroundColor: '#BDBDBD',
+    padding: 8,
+    borderRadius: 8,
+  },
+  enableRadio: {
+    backgroundColor: 'purple',
+    padding: 8,
+    borderRadius: 8,
+  },
+  radioText: {
+    color: 'white',
   },
 });
 export default Home;
