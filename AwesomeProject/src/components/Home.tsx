@@ -18,7 +18,7 @@ const Home: React.FC = () => {
   const [mobile, setMobile] = useState<string>('');
 
   const addUser = () => {
-    if(!firstName || !lastName || !email || !mobile) return
+    if (!firstName || !lastName || !email || !mobile) return;
     const user: UserData = {
       firstName,
       lastName,
@@ -33,7 +33,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: 'pink'}}>
+    <View style={{flex: 1, backgroundColor: '#EEEEEE'}}>
       <Text style={styles.mainTitle}>User Profile</Text>
       <TextInput
         style={styles.input}
@@ -74,6 +74,10 @@ const Home: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#EEEEEE',
+  },
   title: {
     backgroundColor: 'purple',
     padding: 10,

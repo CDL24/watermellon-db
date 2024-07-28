@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
-    backgroundColor: 'pink',
+    backgroundColor: '#EEEEEE',
   },
   rowConatiner: {
     backgroundColor: '#EEEEEE',
