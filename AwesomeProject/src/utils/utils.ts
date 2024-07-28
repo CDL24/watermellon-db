@@ -30,28 +30,28 @@ export const deleteData = async (id: string) => {
     await user.destroyPermanently();
   });
 };
-// export const getData = () =>{
+export const getData = () =>{
 
-//     const promise = new Promise((resolve, reject)=>{
-//         try {
-//             const users = database.collections.get('users');
-//             console.log('Get...',users)
-//             let userData=  []
-//             users.query().observe().forEach(items => {
-//                 items.forEach((data)=>{
-//                     console.debug(data._raw)
-//                     userData.push(data._raw)
-//                 })
-//             })
-//             resolve(userData)
-//         } catch (error) {
-//             reject(error)
-//         }
+    const promise = new Promise((resolve, reject)=>{
+        try {
+            const users = database.collections.get('users');
+            console.log('Get...',users)
+            let userData=  []
+            users.query().observe().forEach(items => {
+                items.forEach((data)=>{
+                    userData.push(data._raw)
+                })
+                resolve(userData)
+            })
+            
+        } catch (error) {
+            reject(error)
+        }
 
-//     })
+    })
 
-//     return promise;
-// }
+    return promise;
+}
 export interface UserData {
   firstName: string;
   lastName: string;

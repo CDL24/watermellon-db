@@ -11,19 +11,11 @@ import { saveData, updateUser, UserData } from '../utils/utils';
 
 const Home: React.FC = () => {
   const navigation =   useNavigation();
-  const route = useRoute();
+  
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [mobile, setMobile] = useState<string>('');
-  
-  useEffect(()=>{
-    
-    setFirstName(route?.params?.user?.first_name || '')
-    setLastName(route?.params?.user?.last_name || '')
-    setEmail(route?.params?.user?.email || '')
-    setMobile(route?.params?.user?.mobile || '')
-  },[route])
 
   const addUser = () =>{
     const user: UserData = {
@@ -39,13 +31,6 @@ const Home: React.FC = () => {
     setMobile('')
   }
   const editUser = () =>{
-    const user: UserData = {
-      firstName,
-      lastName,
-      email,
-      mobile
-  }
-    updateUser(route?.params?.user?.id,user);
     navigation.navigate('List')
   }
   const listUser = async () =>{
@@ -128,9 +113,9 @@ const Home: React.FC = () => {
           alignSelf: 'center',
           gap: 10
         }}>
-        <TouchableOpacity style={{backgroundColor: 'purple', padding: 10, borderRadius:8}} onPress={()=> route?.params?.user?.id ? editUser() : addUser()}>
+        <TouchableOpacity style={{backgroundColor: 'purple', padding: 10, borderRadius:8}} onPress={()=> addUser()}>
           <Text style={{color: '#FFF', fontSize: 20, fontWeight: '600'}}>
-           {route?.params?.user?.id ? 'Edit User' : 'Add User'}
+           {'Add User'}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={{backgroundColor: 'purple', padding: 10, borderRadius:8}} onPress={()=>listUser()}>

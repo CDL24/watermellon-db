@@ -2,17 +2,13 @@ import {useEffect, useState} from 'react';
 import {
   FlatList,
   Modal,
-  Pressable,
-  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {deleteData, updateUser, UserData} from '../utils/utils';
-import {database} from '../database/database';
-import {useNavigation} from '@react-navigation/native';
+import {deleteData, getData, updateUser, UserData} from '../utils/utils';
 
 const List: React.FC = () => {
   const [data, setData] = useState([]);
@@ -24,44 +20,27 @@ const List: React.FC = () => {
   const [mobile, setMobile] = useState<string>('');
   const [id, setId] = useState<string>('');
 
-  const navigation = useNavigation();
-
   useEffect(() => {
-    getData();
+    getData()
+      .then(data => {
+        console.log('Data -> ', data);
+        setData(data);
+      })
+      .catch(error => console.log('Err : ', error));
   }, [isRefresh]);
-  console.log('data..', data);
-
-  const getData = () => {
-    const users = database.collections.get('users');
-    let userData = [];
-    users
-      .query()
-      .observe()
-      .forEach(items => {
-        items.forEach(data => {
-          console.debug(data._raw);
-          userData.push(data._raw);
-        });
-        console.log('Get...userData', userData);
-        setData(userData);
-      });
-  };
 
   const onDelete = (id: string) => {
     deleteData(id);
-    //getData();
+
     setIsRefresh(!isRefresh);
   };
   const onEdit = user => {
-    console.log('Edit...', user);
     setFirstName(user.first_name);
     setLastName(user.last_name);
     setEmail(user.email);
     setMobile(user.mobile);
     setId(user.id);
     setModalVisible(true);
-    // navigation.goBack()
-    // navigation.push('Home', {user})
   };
   const renderRow = user => {
     console.log('renderRow', user);
@@ -127,12 +106,16 @@ const List: React.FC = () => {
         Users List
       </Text>
       <View style={{flex: 1}}>
-        <FlatList
+        {data?.length > 0 ? (<FlatList
           data={data}
           renderItem={({item}) => renderRow(item)}
           keyExtractor={item => `${item.id}-${Math.random()}`}
           extraData={data}
-        />
+        />) : (
+          <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text>No Records Found!</Text>
+          </View>
+        )}  
       </View>
       <Modal
         animationType="slide"
@@ -234,7 +217,7 @@ const List: React.FC = () => {
                   };
 
                   updateUser(id, user);
-                  setIsRefresh(!isRefresh)
+                  setIsRefresh(!isRefresh);
                   setModalVisible(!modalVisible);
                 }}>
                 <Text style={{color: '#FFF', fontSize: 20, fontWeight: '600'}}>
